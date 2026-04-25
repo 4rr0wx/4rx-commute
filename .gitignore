@@ -1,0 +1,10 @@
+.env
+data/
+__pycache__/
+.venv/
+.DS_Store
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm
+*.pyc
+.claude/

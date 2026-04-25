@@ -1,0 +1,306 @@
+/* ============================================================
+   4rx Design System — Core Tokens
+   Based on Austrian-rail Corporate Design Handbook (Heider-Klausner, 2013)
+   Adapted for self-hosted public-transport tools.
+   ============================================================ */
+
+/* --- System fonts --------------------------------------------
+   We use fonts that ship on virtually every modern OS. The stack
+   mirrors the humanist-grotesque feel of system sans with
+   the best-available system equivalent per platform:
+     macOS / iOS     → Helvetica Neue
+     Windows         → Segoe UI
+     Android / Linux → Roboto / DejaVu Sans
+   No network fetches; no license risk.
+   ----------------------------------------------------------- */
+
+:root {
+  /* ---------- Brand Colors (Corporate Colour §3.1) ---------- */
+  --brand-red:           rgb(226, 0, 42);     /* Signal Red — Pantone 186 */
+  --brand-red-dark:      rgb(171, 0, 32);     /* Dunkelrot */
+  --brand-red-railjet:   rgb(123, 14, 7);     /* railjet-Rot */
+
+  --brand-black:         rgb(0, 0, 0);        /* Signalschwarz */
+  --brand-white:         rgb(255, 255, 255);  /* Verkehrsweiß */
+  --brand-dark:     rgb(100, 100, 100);  /* 70% — Logo-Zusatz */
+
+  /* ---------- Gray Scale (§3.3 Farbabstufungen) ------------ */
+  --gray-70: rgb(100, 100, 100);
+  --gray-60: rgb(125, 125, 125);
+  --gray-50: rgb(149, 149, 149);
+  --gray-40: rgb(171, 171, 171);
+  --gray-30: rgb(193, 193, 193);
+  --gray-20: rgb(214, 214, 214);
+  --gray-10: rgb(235, 235, 235);
+  --gray-05: rgb(245, 245, 245);
+
+  /* ---------- Secondary Colors (§3.2) ----------------------- */
+  --beige-dark:      rgb(201, 196, 174);  /* Dunkelbeige */
+  --beige-mid:       rgb(231, 228, 216);  /* Beige */
+  --beige-light:     rgb(239, 237, 228);  /* Hellbeige */
+
+  --brand-blue-dark:  rgb(30, 0, 125);     /* Nachtblau — Leitsystem */
+  --brand-blue-sbahn: rgb(61, 133, 208);   /* S-Bahn-Blau */
+  --brand-yellow:     rgb(235, 200, 30);   /* Info-Gelb — Wegeleitsystem */
+
+  /* ---------- Product Accent Colours ------------------------
+     Each 4rx product picks one accent from this set. The brand-bar
+     mark, primary buttons, focus rings, and eyebrow labels tint to
+     this value. Default (no product set) is --brand-red.
+     ------------------------------------------------------- */
+  --product-dispatch:  var(--brand-red);          /* default red — ops */
+  --product-livemap:   var(--brand-blue-sbahn);   /* S-Bahn blue — realtime */
+  --product-timetable: var(--brand-blue-dark);    /* night blue — schedule */
+  --product-board:     rgb(30, 30, 30);           /* near-black — public board */
+  --product-alerts:    var(--brand-yellow);       /* info yellow — disruption */
+  --product-fleet:     rgb(46, 125, 50);          /* green — fleet health */
+
+  /* Active product — consumers set this on <html data-product> */
+  --product:           var(--brand-red);
+
+  /* ---------- Semantic Surface Tokens ----------------------- */
+  --bg:              var(--brand-white);
+  --bg-alt:          var(--beige-light);
+  --bg-panel:        var(--gray-05);
+  --bg-inverse:      var(--brand-dark);
+  --bg-accent:       var(--brand-red);
+  --bg-info:         var(--brand-blue-dark);
+
+  /* Foreground */
+  --fg-1:            var(--brand-black);         /* primary text */
+  --fg-2:            var(--gray-70);            /* secondary */
+  --fg-3:            var(--gray-50);            /* tertiary / captions */
+  --fg-disabled:     var(--gray-30);
+  --fg-on-red:       var(--brand-white);
+  --fg-on-dark:      var(--brand-white);
+  --fg-link:         var(--brand-red);
+  --fg-link-hover:   var(--brand-red-dark);
+
+  /* Borders / dividers */
+  --border:          var(--gray-20);
+  --border-strong:   var(--gray-40);
+  --border-inverse:  rgba(255, 255, 255, 0.25);
+
+  /* Semantic status (derived from secondary palette) */
+  --status-alert:    var(--brand-red);          /* delay / disruption */
+  --status-warning:  var(--brand-yellow);       /* advisory */
+  --status-info:     var(--brand-blue-sbahn);   /* info / S-Bahn */
+  --status-success:  rgb(46, 125, 50);         /* on-time (derived) */
+
+  /* ---------- Typography ------------------------------------ */
+  --font-display:    'Helvetica Neue', 'Segoe UI', Roboto, 'Liberation Sans', Arial, system-ui, sans-serif;
+  --font-sans:       'Helvetica Neue', 'Segoe UI', Roboto, 'Liberation Sans', Arial, system-ui, sans-serif;
+  --font-mono:       ui-monospace, 'SF Mono', Menlo, Consolas, 'DejaVu Sans Mono', monospace;
+
+  /* Type scale — rail displays read from distance; sizes run a
+     touch larger than web default. */
+  --fs-xs:    12px;
+  --fs-sm:    14px;
+  --fs-base:  16px;
+  --fs-md:    18px;
+  --fs-lg:    22px;
+  --fs-xl:    28px;
+  --fs-2xl:   36px;
+  --fs-3xl:   48px;
+  --fs-4xl:   64px;
+  --fs-display: 88px;
+
+  --lh-tight: 1.1;
+  --lh-snug:  1.25;
+  --lh-base:  1.45;
+  --lh-loose: 1.7;
+
+  --fw-regular: 400;
+  --fw-medium:  500;
+  --fw-semibold: 600;
+  --fw-bold:    700;
+
+  --tracking-tight:   -0.01em;
+  --tracking-normal:  0;
+  --tracking-wide:    0.04em;
+  --tracking-caps:    0.08em;
+
+  /* ---------- Spacing (4pt base) ---------------------------- */
+  --sp-0:   0;
+  --sp-1:   4px;
+  --sp-2:   8px;
+  --sp-3:   12px;
+  --sp-4:   16px;
+  --sp-5:   24px;
+  --sp-6:   32px;
+  --sp-7:   48px;
+  --sp-8:   64px;
+  --sp-9:   96px;
+
+  /* ---------- Radius — 4rx is squared-off; tiny radius only */
+  --r-none: 0;
+  --r-sm:   4px;
+  --r-md:   8px;
+  --r-lg:   12px;
+  --r-xl:   20px;
+  --r-pill: 999px;
+
+  /* ---------- Elevation — flat system, minimal shadows ------ */
+  --shadow-0: none;
+  --shadow-inset: inset 0 2px 4px rgba(0, 0, 0, 0.10), inset 0 0 0 1px rgba(0, 0, 0, 0.04);
+  --shadow-1: 0 1px 0 rgba(0, 0, 0, 0.06);
+  --shadow-2: 0 2px 6px rgba(0, 0, 0, 0.08);
+  --shadow-3: 0 6px 18px rgba(0, 0, 0, 0.10);
+  --shadow-focus: 0 0 0 3px rgba(226, 0, 42, 0.35);
+
+  /* ---------- Motion ---------------------------------------- */
+  --ease-std:    cubic-bezier(0.2, 0, 0, 1);
+  --ease-out:    cubic-bezier(0.0, 0, 0.2, 1);
+  --dur-fast:    120ms;
+  --dur-med:     200ms;
+  --dur-slow:    320ms;
+
+  /* ---------- Layout ---------------------------------------- */
+  --bar-height: 64px;       /* the white brand bar */
+  --bar-logo-size: 33px;    /* matches §2.2 Regelgröße for A4 */
+  --container-max: 1280px;
+}
+
+/* ===============================================================
+   Base elements
+   =============================================================== */
+html, body {
+  background: var(--bg);
+  color: var(--fg-1);
+  font-family: var(--font-sans);
+  font-size: var(--fs-base);
+  line-height: var(--lh-base);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Semantic display headings — institutional grotesque,
+   tight tracking, black text. No script or playful faces. */
+.h-display,
+h1.display {
+  font-family: var(--font-display);
+  font-weight: var(--fw-medium);
+  font-size: var(--fs-display);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--tracking-tight);
+  color: var(--fg-1);
+  margin: 0;
+}
+
+h1, .h1 {
+  font-family: var(--font-display);
+  font-weight: var(--fw-semibold);
+  font-size: var(--fs-3xl);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--tracking-tight);
+  margin: 0 0 var(--sp-5);
+}
+
+h2, .h2 {
+  font-family: var(--font-display);
+  font-weight: var(--fw-semibold);
+  font-size: var(--fs-2xl);
+  line-height: var(--lh-snug);
+  margin: 0 0 var(--sp-4);
+}
+
+h3, .h3 {
+  font-family: var(--font-sans);
+  font-weight: var(--fw-semibold);
+  font-size: var(--fs-xl);
+  line-height: var(--lh-snug);
+  margin: 0 0 var(--sp-3);
+}
+
+h4, .h4 {
+  font-family: var(--font-sans);
+  font-weight: var(--fw-semibold);
+  font-size: var(--fs-lg);
+  line-height: var(--lh-snug);
+  margin: 0 0 var(--sp-3);
+}
+
+/* Eyebrow — uppercase small label used above section heads */
+.eyebrow {
+  font-family: var(--font-sans);
+  font-weight: var(--fw-semibold);
+  font-size: var(--fs-xs);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--brand-red);
+}
+
+p, .p {
+  font-size: var(--fs-base);
+  line-height: var(--lh-base);
+  color: var(--fg-1);
+  margin: 0 0 var(--sp-4);
+  text-wrap: pretty;
+}
+
+.small, small {
+  font-size: var(--fs-sm);
+  color: var(--fg-2);
+}
+
+.caption {
+  font-size: var(--fs-xs);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--fg-3);
+}
+
+code, .code, pre {
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+}
+
+/* Tabular numerals — essential for departure boards */
+.tnum, time, .time {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+a {
+  color: var(--fg-link);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-thickness: 1px;
+  transition: color var(--dur-fast) var(--ease-std);
+}
+a:hover { color: var(--fg-link-hover); }
+
+hr {
+  border: 0;
+  height: 1px;
+  background: var(--border);
+  margin: var(--sp-5) 0;
+}
+
+/* ===============================================================
+   Utility — the signature white brand bar
+   =============================================================== */
+.rx-bar {
+  background: var(--brand-white);
+  height: var(--bar-height);
+  display: flex;
+  align-items: center;
+  padding: 0 var(--sp-5);
+  border-bottom: 1px solid var(--border);
+}
+.rx-bar--red {
+  background: var(--brand-red);
+  color: var(--brand-white);
+  border-bottom: 0;
+}
+
+/* The Linienverlauf — the flowing wave — as a subtle repeating
+   background accent. */
+.rx-wave {
+  background-image:
+    linear-gradient(180deg, transparent 0, transparent 100%),
+    url("assets/linienverlauf.svg");
+  background-repeat: no-repeat;
+  background-position: right center;
+  background-size: auto 70%;
+}

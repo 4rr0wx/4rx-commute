@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="de" data-accent="mixed">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>4rx-Commute · Pottschach → Westbahnhof</title>
+<link rel="stylesheet" href="design-system/colors_and_type.css">
+<link rel="stylesheet" href="design-system/kit.css">
+<link rel="stylesheet" href="styles/commute.css">
+<script crossorigin src="https://unpkg.com/react@18.3.1/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js"></script>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel" src="components/api.js"></script>
+<script type="text/babel" src="components/Shell.jsx"></script>
+<script type="text/babel" src="components/LivePage.jsx"></script>
+<script type="text/babel" src="components/HistoriePage.jsx"></script>
+<script type="text/babel" src="components/OtherPages.jsx"></script>
+<script type="text/babel">
+const { useState, useEffect } = React;
+
+const DEFAULT_ROUTE = {
+  outbound: {origin:'Pottschach', transfer:'Wien Meidling', destination:'Wien Westbahnhof'},
+  return:   {origin:'Wien Westbahnhof', transfer:'Wien Meidling', destination:'Pottschach'},
+};
+
+function App() {
+  const [nav, setNav] = useState('live');
+  const [accent, setAccent] = useState('mixed');
+  const [chartStyle, setChartStyle] = useState('streak');
+  const [now, setNow] = useState(new Date());
+  const [route, setRoute] = useState(DEFAULT_ROUTE);
+  const [direction, setDirection] = useState(() => {
+    const saved = localStorage.getItem('rx.direction');
+    return saved === 'return' ? 'return' : 'outbound';
+  });
+
+  useEffect(() => {
+    const id = setInterval(() => setNow(new Date()), 30_000);
+    return () => clearInterval(id);
+  }, []);
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-accent', accent);
+  }, [accent]);
+
+  useEffect(() => {
+    localStorage.setItem('rx.direction', direction);
+  }, [direction]);
+
+  useEffect(() => {
+    api.route().then(r => {
+      // Tolerate both shapes: {outbound,return} or flat {origin,transfer,destination}.
+      if (r && r.outbound && r.return) setRoute(r);
+      else if (r && r.origin) setRoute({
+        outbound: r,
+        return: {origin: r.destination, transfer: r.transfer, destination: r.origin},
+      });
+    }).catch(() => {});
+  }, []);
+
+  const leg = route[direction] || route.outbound;
+  const brandRoute = { origin: leg.origin, destination: leg.destination };
+
+  let page;
+  if (nav === 'live') page = <LivePage route={route} now={now}
+      direction={direction} onDirectionChange={setDirection} />;
+  else if (nav === 'historie') page = <HistoriePage chartStyle={chartStyle}
+      direction={direction} onDirectionChange={setDirection} />;
+  else if (nav === 'stoerungen') page = <DisruptionsPage />;
+  else if (nav === 'einstellungen') page = <SettingsPage
+      accent={accent} setAccent={setAccent}
+      chartStyle={chartStyle} setChartStyle={setChartStyle}
+      route={leg} />;
+
+  return (
+    <div className="rx-app">
+      <BrandBar route={brandRoute} />
+      <StatusStrip now={now} />
+      <Sidebar current={nav} onNav={setNav} />
+      <main className="rx-main">{page}</main>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>

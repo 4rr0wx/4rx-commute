@@ -1,0 +1,6 @@
+fastapi>=0.115
+uvicorn[standard]>=0.30
+pyhafas>=0.4
+apscheduler>=3.10
+pydantic>=2.10
+python-dateutil>=2.9
